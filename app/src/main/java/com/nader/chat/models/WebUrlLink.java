@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by nader on 22/01/16.
  */
 
-public class Link {
+public class WebUrlLink {
 
     @SerializedName("url")
     private String mUrl;
@@ -14,10 +14,10 @@ public class Link {
     private String mTitle;
 
 
-    public Link() {
+    public WebUrlLink() {
     }
 
-    public Link(String title, String url) {
+    public WebUrlLink(String title, String url) {
         mTitle = title;
         mUrl = url;
     }
@@ -40,5 +40,6 @@ public class Link {
     public void setTitle(String title) {
         mTitle = title;
     }
+
 
 }

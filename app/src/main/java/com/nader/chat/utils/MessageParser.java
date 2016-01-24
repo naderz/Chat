@@ -1,13 +1,10 @@
 package com.nader.chat.utils;
 
-import com.nader.chat.models.Link;
-import com.nader.chat.models.MessageMetaData;
 import com.nader.chat.utils.finders.EmoticonsFinder;
+import com.nader.chat.utils.finders.Finder;
 import com.nader.chat.utils.finders.MentionFinder;
 import com.nader.chat.utils.finders.UrlFinder;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,32 +12,24 @@ import java.util.List;
  */
 public class MessageParser {
 
-    public static MessageMetaData getMessageMetaData(String message) {
-        MessageMetaData messageMetaData = new MessageMetaData();
+    public static Matches parse(String message) {
 
-        messageMetaData.setEmoticons(EmoticonsFinder.fetch(message));
-        messageMetaData.setMentions(MentionFinder.fetch(message));
-        messageMetaData.setLinks(fetchLinks(message));
+        Matches matches = new Matches();
+        matches.originalString = message;
+        matches.links = UrlFinder.fetch(message);
+        matches.emoticons = EmoticonsFinder.fetch(message);
+        matches.mentions = MentionFinder.fetch(message);
 
-        return messageMetaData;
+        return matches;
     }
 
 
-    private static List<Link> fetchLinks(String message) {
-        List<Link> links = new ArrayList<>();
-        List<String> urls = UrlFinder.fetch(message);
+    public static class Matches {
+        public String originalString;
+        public List<Finder.Match> emoticons;
+        public List<Finder.Match> links;
+        public List<Finder.Match> mentions;
 
-        for (String url : urls) {
-            try {
-                Link link = new Link(UrlTitleExtractor.getPageTitle(url), url);
-                links.add(link);
-            } catch (IOException e) {
-                //Handle this error with a design or just ignore
-                // depends on how important is it to get the meta data
-            }
-
-        }
-        return links;
     }
 
 

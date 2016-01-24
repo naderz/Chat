@@ -6,11 +6,17 @@ package com.nader.chat.utils;
 
 import android.support.annotation.Nullable;
 
+import com.nader.chat.models.WebUrlLink;
+import com.nader.chat.utils.finders.Finder;
+import com.nader.chat.utils.finders.UrlFinder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +40,22 @@ public class UrlTitleExtractor {
         return url;
     }
 
+
+    public static List<WebUrlLink> generateWebUrlLinks(String message) {
+        List<WebUrlLink> links = new ArrayList<>();
+        List<Finder.Match> matches = UrlFinder.fetch(message);
+
+        for (Finder.Match match : matches) {
+            try {
+                WebUrlLink link = new WebUrlLink(UrlTitleExtractor.getPageTitle(match.string), match.string);
+                links.add(link);
+            } catch (IOException e) {
+                //TODO:Handle this error with a design or just ignore
+                // depends on how important is it to get the meta data
+            }
+        }
+        return links;
+    }
 
     public static String getPageTitle(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();

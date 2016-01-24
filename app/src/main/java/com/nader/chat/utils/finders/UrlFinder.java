@@ -11,7 +11,7 @@ public class UrlFinder extends Finder {
 
     public static final String REGEX_WEB_URL = Patterns.WEB_URL.pattern();
 
-    public static List<String> fetch(String messageString) {
+    public static List<Match> fetch(String messageString) {
         return fetch(messageString, REGEX_WEB_URL, 0);
     }
 

@@ -7,10 +7,9 @@ import java.util.List;
  */
 public class MentionFinder extends Finder {
 
-    private static final String REGEX_MENTIONS = "(@)([a-zA-Z\\d]+)([^a-zA-Z\\d])";
+    private static final String REGEX_MENTIONS = "(@)([a-zA-Z\\d]+)";
 
-    public static List<String> fetch(String messageString) {
+    public static List<Match> fetch(String messageString) {
         return fetch(messageString, REGEX_MENTIONS, 2);
     }
-
 }

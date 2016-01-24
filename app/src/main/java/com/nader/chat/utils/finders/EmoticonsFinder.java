@@ -9,7 +9,7 @@ public class EmoticonsFinder extends Finder {
 
     private static final String REGEX_EMOTICONS = "(\\()([a-zA-Z\\d]+)(\\))";
 
-    public static List<String> fetch(String messageString) {
+    public static List<Match> fetch(String messageString) {
         return fetch(messageString, REGEX_EMOTICONS, 2);
     }
 }

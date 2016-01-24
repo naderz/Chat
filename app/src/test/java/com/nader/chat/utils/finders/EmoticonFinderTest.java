@@ -14,33 +14,33 @@ public class EmoticonFinderTest {
 
     @Test
     public void findEmoticon_one_result_letters_only() throws Exception {
-        List<String> emoticons = EmoticonsFinder.fetch("(wink)");
-        assertEquals(emoticons.get(0), "wink");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(wink)");
+        assertEquals(emoticons.get(0).string, "wink");
     }
 
     @Test
     public void findEmoticon_one_result_numbers_only() throws Exception {
-        List<String> emoticons = EmoticonsFinder.fetch("(272)");
-        assertEquals(emoticons.get(0), "272");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(272)");
+        assertEquals(emoticons.get(0).string, "272");
     }
 
     @Test
     public void findEmoticon_one_result_alphanumeric() throws Exception {
-        List<String> emoticons = EmoticonsFinder.fetch("(f2f)");
-        assertEquals(emoticons.get(0), "f2f");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(f2f)");
+        assertEquals(emoticons.get(0).string, "f2f");
     }
 
 
     @Test
     public void findEmoticon_returns_no_results() throws Exception {
-        List<String> emoticons = EmoticonsFinder.fetch("Nothing to see :( here :) or even here :(  ): ");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("Nothing to see :( here :) or even here :(  ): ");
         assertEquals(emoticons.size(), 0);
     }
 
     @Test
     public void findEmoticon_emoticon_inception() throws Exception {
-        List<String> emoticons = EmoticonsFinder.fetch("(wi(wink)nk)");
-        assertEquals(emoticons.get(0), "wink");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(wi(wink)nk)");
+        assertEquals(emoticons.get(0).string, "wink");
     }
 
 

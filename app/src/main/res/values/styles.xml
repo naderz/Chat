@@ -2,12 +2,18 @@
 
     <!-- Base application theme. -->
     <style name="ParentTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="colorPrimary">@color/cyan_800</item>
+        <item name="colorPrimaryDark">@color/cyan_900</item>
+        <item name="colorAccent">@color/deep_orange_400</item>
+        <item name="colorPrimaryLight">@color/cyan_100</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <!-- Base application theme. -->
+    <style name="MentionTheme" parent="TextAppearance.AppCompat.Medium.Inverse">
+        <item name="android:background">?colorPrimary</item>
     </style>
 
 
