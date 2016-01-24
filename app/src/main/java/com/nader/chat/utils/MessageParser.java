@@ -13,7 +13,6 @@ import java.util.List;
 public class MessageParser {
 
     public static Matches parse(String message) {
-
         Matches matches = new Matches();
         matches.originalString = message;
         matches.links = UrlFinder.fetch(message);
@@ -23,14 +22,10 @@ public class MessageParser {
         return matches;
     }
 
-
     public static class Matches {
         public String originalString;
         public List<Finder.Match> emoticons;
         public List<Finder.Match> links;
         public List<Finder.Match> mentions;
-
     }
-
-
 }

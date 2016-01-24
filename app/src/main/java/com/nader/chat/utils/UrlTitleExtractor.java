@@ -32,7 +32,6 @@ public class UrlTitleExtractor {
     private static final Pattern TITLE_TAG =
             Pattern.compile("<title>(.*)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-
     static String formatUrl(final String url) {
         if (url != null && !url.contains("://")) {
             return "http://" + url;
@@ -40,6 +39,20 @@ public class UrlTitleExtractor {
         return url;
     }
 
+    @Nullable
+    static String extractTitleFromHtml(StringBuilder content) {
+        // extract the title
+        if (content != null) {
+            Matcher matcher = TITLE_TAG.matcher(content);
+            if (matcher.find()) {
+            /* replace any occurrences of whitespace (which may
+             * include line feeds and other uglies) as well
+             * as HTML brackets with a space */
+                return matcher.group(1).replaceAll("[\\s<>]+", " ").trim();
+            }
+        }
+        return null;
+    }
 
     public static List<WebUrlLink> generateWebUrlLinks(String message) {
         List<WebUrlLink> links = new ArrayList<>();
@@ -91,22 +104,6 @@ public class UrlTitleExtractor {
 
         }
     }
-
-    @Nullable
-    static String extractTitleFromHtml(StringBuilder content) {
-        // extract the title
-        if (content != null) {
-            Matcher matcher = TITLE_TAG.matcher(content);
-            if (matcher.find()) {
-            /* replace any occurrences of whitespace (which may
-             * include line feeds and other uglies) as well
-             * as HTML brackets with a space */
-                return matcher.group(1).replaceAll("[\\s<>]+", " ").trim();
-            }
-        }
-        return null;
-    }
-
 
     private static Charset getCharset(String charsetName) {
         if (charsetName != null && Charset.isSupported(charsetName))

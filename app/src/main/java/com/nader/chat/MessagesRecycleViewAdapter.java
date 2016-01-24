@@ -48,10 +48,7 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
         ChatMessage message = mMessageList.get(i);
 
         customViewHolder.senderTextView.setText(message.getSender());
-        //TODO Add emoticon to the message
-        //customViewHolder.messageTextView.setText(message.getMessageContent());
         customViewHolder.messageTextView.setText(replaceMatchesWithContent(message.getMessageMatches()));
-
 
         View.OnLongClickListener onLongClickListener = setCopyMessageOnLongClick();
 
@@ -70,9 +67,11 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
 
     private SpannableStringBuilder replaceMatchesWithContent(MessageParser.Matches matches) {
         SpannableStringBuilder builder = new SpannableStringBuilder(matches.originalString);
+
         for (Finder.Match match : matches.mentions) {
             builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), match.startIndex, match.endIndex, 0);
         }
+
         for (Finder.Match match : matches.emoticons) {
             if (Emoticons.sEmoticonMap.containsKey(match.string)) {
                 builder.setSpan(new ImageSpan(mContext, Emoticons.sEmoticonMap.get(match.string)), match.startIndex, match.endIndex, 0);

@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Created by nader on 22/01/16.
  */
-public class MentionFinder extends Finder {
+public class MentionFinder {
 
     private static final String REGEX_MENTIONS = "(@)([a-zA-Z\\d]+)";
 
-    public static List<Match> fetch(String messageString) {
-        return fetch(messageString, REGEX_MENTIONS, 2);
+    public static List<Finder.Match> fetch(String messageString) {
+        return Finder.fetch(messageString, REGEX_MENTIONS, 2);
     }
 }

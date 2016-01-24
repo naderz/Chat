@@ -12,7 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 
 import com.nader.chat.models.ChatMessage;
@@ -29,8 +29,9 @@ public class ChatFragment extends Fragment {
     private List<ChatMessage> messageList = new ArrayList<>();
     private MessagesRecycleViewAdapter mMessageAdapter;
     private RecyclerView mMessagesRecyclerView;
-    private EditText mMessageEditText;
+    private AutoCompleteTextView mMessageEditText;
     private ImageButton mSendBtn;
+
     public ChatFragment() {
     }
 
@@ -69,7 +70,11 @@ public class ChatFragment extends Fragment {
 
     private void initSendButton() {
         mSendBtn = (ImageButton) getView().findViewById(R.id.btn_send);
-        mMessageEditText = (EditText) getView().findViewById(R.id.et_message);
+        mMessageEditText = (AutoCompleteTextView) getView().findViewById(R.id.et_message);
+
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,countries);
+//        actv.setAdapter(adapter);
+
         mSendBtn.setEnabled(false);
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +129,6 @@ public class ChatFragment extends Fragment {
 
             }
         });
-
     }
-
 
 }

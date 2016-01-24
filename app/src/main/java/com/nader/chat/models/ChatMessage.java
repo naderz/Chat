@@ -59,7 +59,6 @@ public class ChatMessage {
         mMessageDateTime = messageDateTime;
     }
 
-
     public MessageParser.Matches getMessageMatches() {
         return mMessageMatches;
     }
@@ -67,6 +66,5 @@ public class ChatMessage {
     public void setMessageMatches(MessageParser.Matches mMessageMatches) {
         this.mMessageMatches = mMessageMatches;
     }
-
 
 }

@@ -14,13 +14,13 @@ public class EmoticonFinderTest {
 
     @Test
     public void findEmoticon_one_result_letters_only() throws Exception {
-        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(wink)");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("hey (wink)");
         assertEquals(emoticons.get(0).string, "wink");
     }
 
     @Test
     public void findEmoticon_one_result_numbers_only() throws Exception {
-        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(272)");
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("hellow (272)");
         assertEquals(emoticons.get(0).string, "272");
     }
 
@@ -30,6 +30,11 @@ public class EmoticonFinderTest {
         assertEquals(emoticons.get(0).string, "f2f");
     }
 
+    @Test
+    public void findEmoticon_no_result_more_than_15() throws Exception {
+        List<Finder.Match> emoticons = EmoticonsFinder.fetch("(thisisaverylongstringthatwillnotbematched)");
+        assertEquals(emoticons.size(), 0);
+    }
 
     @Test
     public void findEmoticon_returns_no_results() throws Exception {
@@ -42,6 +47,5 @@ public class EmoticonFinderTest {
         List<Finder.Match> emoticons = EmoticonsFinder.fetch("(wi(wink)nk)");
         assertEquals(emoticons.get(0).string, "wink");
     }
-
 
 }

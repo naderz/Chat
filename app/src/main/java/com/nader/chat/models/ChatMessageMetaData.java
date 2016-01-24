@@ -26,11 +26,9 @@ public class ChatMessageMetaData {
     @SerializedName("links")
     private List<WebUrlLink> mLinks = new ArrayList<>();
 
-
     public List<String> getMentions() {
         return mMentions;
     }
-
 
     public void setMentions(List<String> mentions) {
         if (mentions != null && mentions.size() == 0) {
@@ -38,7 +36,6 @@ public class ChatMessageMetaData {
         }
         this.mMentions = mentions;
     }
-
 
     public List<String> getEmoticons() {
         return mEmoticons;
@@ -62,7 +59,6 @@ public class ChatMessageMetaData {
         }
         this.mLinks = links;
     }
-
 
     public ChatMessageMetaData applyTo(MessageParser.Matches matches) {
         mMentions = new ArrayList<>();

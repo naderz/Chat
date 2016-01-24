@@ -19,5 +19,4 @@ public class Emoticons {
         sEmoticonMap.put("h5", R.drawable.ic_h5);
         sEmoticonMap.put("geek", R.drawable.ic_geek);
     }
-
 }

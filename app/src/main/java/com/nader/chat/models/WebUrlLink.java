@@ -13,7 +13,6 @@ public class WebUrlLink {
     @SerializedName("title")
     private String mTitle;
 
-
     public WebUrlLink() {
     }
 
@@ -26,20 +25,16 @@ public class WebUrlLink {
         return mUrl;
     }
 
-
     public void setUrl(String url) {
         mUrl = url;
     }
-
 
     public String getTitle() {
         return mTitle;
     }
 
-
     public void setTitle(String title) {
         mTitle = title;
     }
-
 
 }

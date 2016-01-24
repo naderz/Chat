@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Created by nader on 24/01/16.
  */
-public abstract class Finder {
+public class Finder {
 
     protected static List<Match> fetch(String messageString, String regex, int group) {
         Pattern pattern = Pattern.compile(regex);
@@ -29,7 +29,6 @@ public abstract class Finder {
         public String string;
         public int startIndex;
         public int endIndex;
-
     }
 
 }

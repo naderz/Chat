@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class MentionFinderTest {
 
-
     @Test
     public void findMentions_returns_one_result() throws Exception {
         List<Finder.Match> mentions = MentionFinder.fetch("@chris you around?");
@@ -38,12 +37,10 @@ public class MentionFinderTest {
         assertEquals(mentions.size(), 0);
     }
 
-
     @Test
     public void findMentions_mention_within_email() throws Exception {
         List<Finder.Match> mentions = MentionFinder.fetch("nader@chris.com");
         assertEquals(mentions.get(0).string, "chris");
     }
-
 
 }

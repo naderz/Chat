@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Created by nader on 22/01/16.
  */
-public class EmoticonsFinder extends Finder {
+public class EmoticonsFinder {
 
-    private static final String REGEX_EMOTICONS = "(\\()([a-zA-Z\\d]+)(\\))";
+    private static final String REGEX_EMOTICONS = "(\\()([a-zA-Z\\d]{1,15})(\\))";
 
-    public static List<Match> fetch(String messageString) {
-        return fetch(messageString, REGEX_EMOTICONS, 2);
+    public static List<Finder.Match> fetch(String messageString) {
+        return Finder.fetch(messageString, REGEX_EMOTICONS, 2);
     }
 }

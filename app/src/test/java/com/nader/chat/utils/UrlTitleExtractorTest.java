@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNull;
  */
 public class UrlTitleExtractorTest {
 
-
     @Test
     public void extractUrl_working() throws Exception {
 
@@ -30,7 +29,6 @@ public class UrlTitleExtractorTest {
         StringBuilder stringBuilder = new StringBuilder(html);
         assertEquals(UrlTitleExtractor.extractTitleFromHtml(stringBuilder), "Testing");
     }
-
 
     @Test
     public void extractUrl_no_title_tag() throws Exception {
@@ -68,7 +66,6 @@ public class UrlTitleExtractorTest {
         assertEquals(title, "http://www.google.com");
     }
 
-
     @Test
     public void formatUrl_working_no_protocol_url() throws Exception {
         String title = UrlTitleExtractor.formatUrl("www.google.com");
@@ -81,7 +78,6 @@ public class UrlTitleExtractorTest {
         assertEquals(title, "http://google.com");
     }
 
-
     @Test
     public void formatUrl_working_ftp_protocol_url() throws Exception {
         String title = UrlTitleExtractor.formatUrl("ftp://testing.com");
@@ -92,6 +88,5 @@ public class UrlTitleExtractorTest {
     public void formatUrl_null() throws Exception {
         assertNull(UrlTitleExtractor.formatUrl(null));
     }
-
 
 }
