@@ -72,8 +72,9 @@ public class ChatMessageMetaData {
         }
 
         mLinks = new ArrayList<>();
+        UrlTitleExtractor titleExtractor = new UrlTitleExtractor();
         for (Finder.Match match : matches.links) {
-            mLinks.addAll(UrlTitleExtractor.generateWebUrlLinks(match.string));
+            mLinks.addAll(titleExtractor.generateWebUrlLinks(match.string));
         }
         return this;
     }

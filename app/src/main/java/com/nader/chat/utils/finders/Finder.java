@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Finder {
 
-    protected static List<Match> fetch(String messageString, String regex, int group) {
+    static List<Match> fetch(String messageString, String regex, int group) {
         Pattern pattern = Pattern.compile(regex);
 
         Matcher matcher = pattern.matcher(messageString);

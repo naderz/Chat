@@ -1,5 +1,6 @@
 package com.nader.chat.utils;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,6 +10,13 @@ import static org.junit.Assert.assertNull;
  * Created by nader on 22/01/16.
  */
 public class UrlTitleExtractorTest {
+
+    private UrlTitleExtractor mExtractor;
+
+    @Before
+    public void init() {
+        mExtractor = new UrlTitleExtractor();
+    }
 
     @Test
     public void extractUrl_working() throws Exception {
@@ -27,7 +35,7 @@ public class UrlTitleExtractorTest {
                 "</html>";
 
         StringBuilder stringBuilder = new StringBuilder(html);
-        assertEquals(UrlTitleExtractor.extractTitleFromHtml(stringBuilder), "Testing");
+        assertEquals(mExtractor.extractTitleFromHtml(stringBuilder), "Testing");
     }
 
     @Test
@@ -46,47 +54,47 @@ public class UrlTitleExtractorTest {
                 "</html>";
 
         StringBuilder stringBuilder = new StringBuilder(html);
-        assertEquals(UrlTitleExtractor.extractTitleFromHtml(stringBuilder), null);
+        assertEquals(mExtractor.extractTitleFromHtml(stringBuilder), null);
     }
 
     @Test
     public void extractUrl_no_html() throws Exception {
         StringBuilder stringBuilder = new StringBuilder("");
-        assertEquals(UrlTitleExtractor.extractTitleFromHtml(stringBuilder), null);
+        assertEquals(mExtractor.extractTitleFromHtml(stringBuilder), null);
     }
 
     @Test
     public void extractUrl_null() throws Exception {
-        assertNull(UrlTitleExtractor.extractTitleFromHtml(null));
+        assertNull(mExtractor.extractTitleFromHtml(null));
     }
 
     @Test
     public void formatUrl_working_full_url() throws Exception {
-        String title = UrlTitleExtractor.formatUrl("http://www.google.com");
+        String title = mExtractor.formatUrl("http://www.google.com");
         assertEquals(title, "http://www.google.com");
     }
 
     @Test
     public void formatUrl_working_no_protocol_url() throws Exception {
-        String title = UrlTitleExtractor.formatUrl("www.google.com");
+        String title = mExtractor.formatUrl("www.google.com");
         assertEquals(title, "http://www.google.com");
     }
 
     @Test
     public void formatUrl_working_no_protocol_no_www_url() throws Exception {
-        String title = UrlTitleExtractor.formatUrl("google.com");
+        String title = mExtractor.formatUrl("google.com");
         assertEquals(title, "http://google.com");
     }
 
     @Test
     public void formatUrl_working_ftp_protocol_url() throws Exception {
-        String title = UrlTitleExtractor.formatUrl("ftp://testing.com");
+        String title = mExtractor.formatUrl("ftp://testing.com");
         assertEquals(title, "ftp://testing.com");
     }
 
     @Test
     public void formatUrl_null() throws Exception {
-        assertNull(UrlTitleExtractor.formatUrl(null));
+        assertNull(mExtractor.formatUrl(null));
     }
 
 }

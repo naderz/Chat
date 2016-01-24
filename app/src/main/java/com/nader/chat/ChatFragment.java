@@ -16,11 +16,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.models.ChatMessageMetaData;
 import com.nader.chat.utils.MessageParser;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -106,16 +104,8 @@ public class ChatFragment extends Fragment {
         AsyncTaskCompat.executeParallel(new AsyncTask<Void, Void, ChatMessage>() {
             @Override
             protected ChatMessage doInBackground(Void... params) {
-                MessageParser.Matches matches = MessageParser.parse(message);
-                ChatMessage chatMessage = new ChatMessage();
-
-                chatMessage.setMessageMetaData(new ChatMessageMetaData().applyTo(matches));
-                chatMessage.setMessageContent(matches.originalString);
-                chatMessage.setMessageDateTime(new Date().getTime());
-                chatMessage.setMessageMatches(matches);
-
-                chatMessage.setSender("You"); //TODO get from session object of the logged in user?
-
+                MessageParser messageParser = new MessageParser();
+                ChatMessage chatMessage = messageParser.generateChatMessage(message);
                 return chatMessage;
             }
 
