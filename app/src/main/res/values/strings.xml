@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Chat</string>
+    <string name="title_activity_chat">Chat</string>
+    <string name="action_settings">Settings</string>
 </resources>
