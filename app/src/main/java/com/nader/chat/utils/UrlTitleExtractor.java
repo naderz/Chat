@@ -6,7 +6,6 @@ package com.nader.chat.utils;
 
 import com.nader.chat.models.WebUrlLink;
 import com.nader.chat.utils.finders.Finder;
-import com.nader.chat.utils.finders.UrlFinder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,13 +46,11 @@ public class UrlTitleExtractor {
         return null;
     }
 
-    public List<WebUrlLink> generateWebUrlLinks(String message) {
+    public List<WebUrlLink> generateWebUrlLinks(List<Finder.Match> urlMatches) {
         List<WebUrlLink> links = new ArrayList<>();
-        List<Finder.Match> matches = UrlFinder.fetch(message);
-
-        for (Finder.Match match : matches) {
+        for (Finder.Match urlMatch : urlMatches) {
             try {
-                WebUrlLink link = new WebUrlLink(getPageTitle(match.string), match.string);
+                WebUrlLink link = new WebUrlLink(getPageTitle(urlMatch.string), urlMatch.string);
                 links.add(link);
             } catch (IOException e) {
                 //TODO:Handle this error

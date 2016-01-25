@@ -16,7 +16,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.utils.MessageParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class ChatFragment extends Fragment {
 
-    private List<ChatMessage> messageList = new ArrayList<>();
+    private List<ChatMessage> mMessageList;
     private MessagesRecycleViewAdapter mMessageAdapter;
     private RecyclerView mMessagesRecyclerView;
     private AutoCompleteTextView mMessageEditText;
@@ -56,12 +55,16 @@ public class ChatFragment extends Fragment {
     }
 
     private void initMessageRecyclerView() {
-        //TODO: Get message history from a source stored locally? and Or from a service?
-        mMessageAdapter = new MessagesRecycleViewAdapter(getActivity(), messageList);
+        //TODO: Get message history from a source stored locally and Or from a service?.
+        if (mMessageAdapter == null) {
+            mMessageList = new ArrayList<>();
+            mMessageAdapter = new MessagesRecycleViewAdapter(getActivity(), mMessageList);
+        }
         mMessagesRecyclerView = (RecyclerView) getView().findViewById(R.id.message_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setStackFromEnd(true);
+        layoutManager.setStackFromEnd(false);
+        layoutManager.setReverseLayout(true);
         mMessagesRecyclerView.setLayoutManager(layoutManager);
         mMessagesRecyclerView.setAdapter(mMessageAdapter);
     }
@@ -78,7 +81,7 @@ public class ChatFragment extends Fragment {
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parseMessage(mMessageEditText.getText().toString());
+                postMessage(mMessageEditText.getText().toString());
             }
         });
     }
@@ -100,25 +103,29 @@ public class ChatFragment extends Fragment {
         });
     }
 
-    private void parseMessage(final String message) {
+    private void postMessage(final String message) {
+        final ChatController messageController = new ChatController();
+        final ChatMessage chatMessage = messageController.createChatMessageItem(message);
+        mMessageEditText.setText("");
+        mMessageAdapter.insert(chatMessage);
+        mMessagesRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                mMessagesRecyclerView.smoothScrollToPosition(0);
+            }
+        });
+
         AsyncTaskCompat.executeParallel(new AsyncTask<Void, Void, ChatMessage>() {
             @Override
             protected ChatMessage doInBackground(Void... params) {
-                MessageParser messageParser = new MessageParser();
-                ChatMessage chatMessage = messageParser.generateChatMessage(message);
-                return chatMessage;
+                ChatMessage chatMessageReturned = messageController.postMessage(chatMessage);
+                return chatMessageReturned;
             }
 
             @Override
             protected void onPostExecute(ChatMessage message) {
-                messageList.add(message);
-                mMessageEditText.setText("");
-                int lastItem = mMessageAdapter.getItemCount() - 1;
-                mMessagesRecyclerView.smoothScrollToPosition(lastItem);
-                mMessageAdapter.notifyItemInserted(lastItem);
-
+                mMessageAdapter.updateItem(message);
             }
         });
     }
-
 }

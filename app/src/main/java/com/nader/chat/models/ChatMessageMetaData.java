@@ -2,9 +2,6 @@ package com.nader.chat.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.nader.chat.utils.MessageParser;
-import com.nader.chat.utils.UrlTitleExtractor;
-import com.nader.chat.utils.finders.Finder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,25 +55,6 @@ public class ChatMessageMetaData {
             links = null;
         }
         this.mLinks = links;
-    }
-
-    public ChatMessageMetaData applyTo(MessageParser.Matches matches) {
-        mMentions = new ArrayList<>();
-        for (Finder.Match match : matches.mentions) {
-            mMentions.add(match.string);
-        }
-
-        mEmoticons = new ArrayList<>();
-        for (Finder.Match match : matches.emoticons) {
-            mEmoticons.add(match.string);
-        }
-
-        mLinks = new ArrayList<>();
-        UrlTitleExtractor titleExtractor = new UrlTitleExtractor();
-        for (Finder.Match match : matches.links) {
-            mLinks.addAll(titleExtractor.generateWebUrlLinks(match.string));
-        }
-        return this;
     }
 
 }

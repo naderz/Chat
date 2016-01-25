@@ -4,58 +4,120 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nader.chat.models.ChatMessage;
 import com.nader.chat.utils.Emoticons;
-import com.nader.chat.utils.MessageParser;
 import com.nader.chat.utils.finders.Finder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nader on 24/01/16.
  */
-public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRecycleViewAdapter.CustomViewHolder> {
-    private List<ChatMessage> mMessageList;
+public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRecycleViewAdapter.MessageViewHolder> {
+    final Map<String, ChatMessage> mUniqueMapping = new HashMap<>();
+    private SortedList<ChatMessage> mMessageList;
     private Context mContext;
 
-    public MessagesRecycleViewAdapter(Context context, List<ChatMessage> mMessageList) {
-        this.mMessageList = mMessageList;
+    public MessagesRecycleViewAdapter(Context context, List<ChatMessage> messageList) {
         this.mContext = context;
+
+        mMessageList = new SortedList<>(ChatMessage.class,
+                new SortedListAdapterCallback<ChatMessage>(this) {
+                    @Override
+                    public void onChanged(int position, int count) {
+                        super.onChanged(position, count);
+                    }
+
+                    @Override
+                    public int compare(ChatMessage o1, ChatMessage o2) {
+
+                        return (int) (o2.getLastEdited() - o1.getLastEdited());
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(ChatMessage oldItem,
+                                                      ChatMessage newItem) {
+                        if (!oldItem.getMessageContent().equals(newItem.getMessageContent())) {
+                            return false;
+                        }
+                        return oldItem.isPending() == newItem.isPending();
+                    }
+
+                    @Override
+                    public boolean areItemsTheSame(ChatMessage item1, ChatMessage item2) {
+                        return item1.getId().equals(item2.getId());
+                    }
+                });
+
+        mMessageList.addAll(messageList);
     }
 
+    public void updateItem(ChatMessage message) {
+        ChatMessage existing = mUniqueMapping.get(message.getId());
+        if (existing == null) {
+            Log.i("Nothing to update", message.getId());
+            return;
+        }
+        int pos = mMessageList.indexOf(existing);
+        mUniqueMapping.put(message.getId(), message);
+        mMessageList.updateItemAt(pos, message);
+    }
+
+    public void insert(ChatMessage item) {
+        ChatMessage existing = mUniqueMapping.put(item.getId(), item);
+        if (existing == null) {
+            mMessageList.add(item);
+        } else {
+            int pos = mMessageList.indexOf(existing);
+            mMessageList.updateItemAt(pos, item);
+        }
+    }
+
+
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_message_from, viewGroup, false);
 
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        MessageViewHolder viewHolder = new MessageViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
+    public void onBindViewHolder(MessageViewHolder messageViewHolder, int i) {
         ChatMessage message = mMessageList.get(i);
 
-        customViewHolder.senderTextView.setText(message.getSender());
-        customViewHolder.messageTextView.setText(replaceMatchesWithContent(message.getMessageMatches()));
+        messageViewHolder.senderTextView.setText(message.getSender());
+        messageViewHolder.messageTextView.setText(replaceMatchesWithContent(message.getMessageMatches()));
 
         View.OnLongClickListener onLongClickListener = setCopyMessageOnLongClick();
 
         //Handle click event on both title and image click
-        customViewHolder.messageContainer.setOnLongClickListener(onLongClickListener);
-        customViewHolder.messageContainer.setTag(customViewHolder);
+        messageViewHolder.messageContainer.setOnLongClickListener(onLongClickListener);
+        messageViewHolder.messageContainer.setTag(messageViewHolder);
 
+        if (message.isPending()) {
+            messageViewHolder.progressBar.setVisibility(View.VISIBLE);
+        } else {
+            messageViewHolder.progressBar.setVisibility(View.GONE);
+        }
     }
 
     private int getThemeAttributeValue(int attr) {
@@ -65,7 +127,7 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
         return typedValue.data;
     }
 
-    private SpannableStringBuilder replaceMatchesWithContent(MessageParser.Matches matches) {
+    private SpannableStringBuilder replaceMatchesWithContent(ChatController.Matches matches) {
         SpannableStringBuilder builder = new SpannableStringBuilder(matches.originalString);
 
         for (Finder.Match match : matches.mentions) {
@@ -86,7 +148,7 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
         return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                CustomViewHolder holder = (CustomViewHolder) view.getTag();
+                MessageViewHolder holder = (MessageViewHolder) view.getTag();
                 int position = holder.getAdapterPosition();
 
                 ChatMessage chatMessage = mMessageList.get(position);
@@ -105,13 +167,15 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
         return (mMessageList != null ? mMessageList.size() : 0);
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView senderTextView;
         TextView messageTextView;
         View messageContainer;
+        ProgressBar progressBar;
 
-        public CustomViewHolder(View view) {
+        public MessageViewHolder(View view) {
             super(view);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
             senderTextView = (TextView) view.findViewById(R.id.message_sender);
             messageTextView = (TextView) view.findViewById(R.id.message_content);
             messageContainer = view.findViewById(R.id.message_container);

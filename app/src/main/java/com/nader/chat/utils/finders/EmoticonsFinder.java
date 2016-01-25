@@ -1,15 +1,19 @@
 package com.nader.chat.utils.finders;
 
-import java.util.List;
-
 /**
  * Created by nader on 22/01/16.
  */
-public class EmoticonsFinder {
+public class EmoticonsFinder extends Finder {
 
     private static final String REGEX_EMOTICONS = "(\\()([a-zA-Z\\d]{1,15})(\\))";
 
-    public static List<Finder.Match> fetch(String messageString) {
-        return Finder.fetch(messageString, REGEX_EMOTICONS, 2);
+    @Override
+    public String getRegex() {
+        return REGEX_EMOTICONS;
+    }
+
+    @Override
+    public int getGroup() {
+        return 2;
     }
 }

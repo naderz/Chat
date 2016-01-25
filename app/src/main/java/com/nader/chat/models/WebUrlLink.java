@@ -1,5 +1,6 @@
 package com.nader.chat.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,8 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class WebUrlLink {
 
+    @Expose
     @SerializedName("url")
     private String mUrl;
+    @Expose
     @SerializedName("title")
     private String mTitle;
 

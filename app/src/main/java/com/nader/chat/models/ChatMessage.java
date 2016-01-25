@@ -2,12 +2,20 @@ package com.nader.chat.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.nader.chat.utils.MessageParser;
+import com.nader.chat.ChatController;
 
 /**
  * Created by nader on 24/01/16.
  */
 public class ChatMessage {
+
+    @Expose
+    @SerializedName("id")
+    private String mId;
+
+    @Expose
+    @SerializedName("pending")
+    private boolean mPending;
 
     @Expose
     @SerializedName("sender")
@@ -23,9 +31,9 @@ public class ChatMessage {
 
     @Expose
     @SerializedName("messageDateTime")
-    private long mMessageDateTime;
+    private long mLastEdited;
 
-    private MessageParser.Matches mMessageMatches;
+    private ChatController.Matches mMessageMatches;
 
     public String getSender() {
         return mSender;
@@ -51,20 +59,36 @@ public class ChatMessage {
         mMessageMetaData = messageMetaData;
     }
 
-    public long getMessageDateTime() {
-        return mMessageDateTime;
+    public long getLastEdited() {
+        return mLastEdited;
     }
 
-    public void setMessageDateTime(long messageDateTime) {
-        mMessageDateTime = messageDateTime;
+    public void setLastEdited(long lastEdited) {
+        mLastEdited = lastEdited;
     }
 
-    public MessageParser.Matches getMessageMatches() {
+    public ChatController.Matches getMessageMatches() {
         return mMessageMatches;
     }
 
-    public void setMessageMatches(MessageParser.Matches mMessageMatches) {
+    public void setMessageMatches(ChatController.Matches mMessageMatches) {
         this.mMessageMatches = mMessageMatches;
     }
 
+    public boolean isPending() {
+        return mPending;
+    }
+
+    public void setPending(boolean mPending) {
+        this.mPending = mPending;
+    }
+
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String mId) {
+        this.mId = mId;
+    }
 }
