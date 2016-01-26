@@ -1,9 +1,5 @@
 package com.nader.chat.utils;
 
-/**
- * Created by nader on 22/01/16.
- */
-
 import com.nader.chat.models.WebUrlLink;
 import com.nader.chat.utils.finders.Finder;
 

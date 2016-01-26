@@ -3,9 +3,6 @@ package com.nader.chat.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by nader on 22/01/16.
- */
 
 public class WebUrlLink {
 

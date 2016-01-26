@@ -1,46 +1,91 @@
 package com.nader.chat.utils;
 
-/**
- * Created by nader on 24/01/16.
- */
-public class EmoticonAdapter {
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-//    private Context context;
-//    private int layoutResourceId;
-//
-//    public EmoticonAdapter(Context context, int layoutResourceId, Map<String,Integer> emoticons) {
-//        super(context, layoutResourceId, emoticons.keySet());
-//        layoutResourceId = layoutResourceId;
-//        context = context;
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        View row = convertView;
-//        EmoticonHolder holder;
-//
-//        if (row == null) {
-//            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-//            row = inflater.inflate(layoutResourceId, parent, false);
-//
-//            holder = new EmoticonHolder();
-//            holder.imgIcon = (ImageView) row.findViewById(R.id.imgIcon);
-//            holder.txtTitle = (TextView) row.findViewById(R.id.txtTitle);
-//
-//            row.setTag(holder);
-//        } else {
-//            holder = (EmoticonHolder) row.getTag();
-//        }
-//
-//        Weather weather = data[position];
-//        holder.txtTitle.setText(weather.title);
-//        holder.imgIcon.setImageResource(weather.icon);
-//
-//        return row;
-//    }
-//
-//    static class EmoticonHolder {
-//        ImageView imgIcon;
-//        TextView txtTitle;
-//    }
+import com.nader.chat.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EmoticonAdapter extends ArrayAdapter<Emoticons.Emoticon> {
+
+    private Context mContext;
+    private int mLayoutResourceId;
+    private List<Emoticons.Emoticon> mEmoticons;
+    private List<Emoticons.Emoticon> mAutoCompleteSuggestions = new ArrayList<>();
+    Filter shortCutFilter = new Filter() {
+        public String convertResultToString(Object resultValue) {
+            return ((Emoticons.Emoticon) (resultValue)).shortcut;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            if (constraint != null) {
+                mAutoCompleteSuggestions.clear();
+                for (Emoticons.Emoticon emoticon : mEmoticons) {
+                    if (emoticon.shortcut.toLowerCase()
+                            .startsWith(constraint.toString().toLowerCase())) {
+                        mAutoCompleteSuggestions.add(emoticon);
+                    }
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAutoCompleteSuggestions;
+                filterResults.count = mAutoCompleteSuggestions.size();
+                return filterResults;
+            } else {
+                return new FilterResults();
+            }
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+            ArrayList<Emoticons.Emoticon> filteredList = (ArrayList<Emoticons.Emoticon>) results.values;
+            if (results != null && results.count > 0) {
+                clear();
+                for (Emoticons.Emoticon c : filteredList) {
+                    add(c);
+                }
+                return;
+            }
+        }
+    };
+
+    public EmoticonAdapter(Context context, int layoutResourceId, List<Emoticons.Emoticon> emoticons) {
+        super(context, layoutResourceId, emoticons);
+        mLayoutResourceId = layoutResourceId;
+        mContext = context;
+        mEmoticons = new ArrayList<>(emoticons);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View v = convertView;
+        if (v == null) {
+            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = vi.inflate(mLayoutResourceId, null);
+        }
+        Emoticons.Emoticon customer = getItem(position);
+        TextView customerNameLabel = (TextView) v.findViewById(R.id.emoticon_text);
+        customerNameLabel.setText(customer.shortcut);
+
+        ImageView emoticonImage = (ImageView) v.findViewById(R.id.emoticon_img);
+        emoticonImage.setImageResource(customer.resource);
+
+        return v;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return shortCutFilter;
+    }
+
 }
+

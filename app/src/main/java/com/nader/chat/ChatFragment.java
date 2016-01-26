@@ -12,21 +12,23 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.MultiAutoCompleteTextView;
 
 import com.nader.chat.models.ChatMessage;
+import com.nader.chat.utils.EmoticonAdapter;
+import com.nader.chat.utils.Emoticons;
+import com.nader.chat.utils.SpaceTokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ChatFragment extends Fragment {
 
     private List<ChatMessage> mMessageList;
     private MessagesRecycleViewAdapter mMessageAdapter;
     private RecyclerView mMessagesRecyclerView;
-    private AutoCompleteTextView mMessageEditText;
+    private MultiAutoCompleteTextView mMessageEditText;
     private ImageButton mSendBtn;
 
     public ChatFragment() {
@@ -70,20 +72,25 @@ public class ChatFragment extends Fragment {
     }
 
     private void initSendButton() {
-        mSendBtn = (ImageButton) getView().findViewById(R.id.btn_send);
-        mMessageEditText = (AutoCompleteTextView) getView().findViewById(R.id.et_message);
+        EmoticonAdapter adapter = new EmoticonAdapter(getActivity(),
+                R.layout.list_item_emoticon_suggestion,
+                new ArrayList<>(Emoticons.sEmoticonMap.values()));
 
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,countries);
-//        actv.setAdapter(adapter);
+        mMessageEditText = (MultiAutoCompleteTextView) getView().findViewById(R.id.et_message);
+        mMessageEditText.setTokenizer(new SpaceTokenizer());
+        mMessageEditText.setAdapter(adapter);
+
+        mSendBtn = (ImageButton) getView().findViewById(R.id.btn_send);
 
         mSendBtn.setEnabled(false);
-
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postMessage(mMessageEditText.getText().toString());
-            }
-        });
+        mSendBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        postMessage(mMessageEditText.getText().toString());
+                    }
+                }
+        );
     }
 
     private void addTextWatcherToMessageBox() {

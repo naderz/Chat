@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by nader on 24/01/16.
- */
 public abstract class Finder {
 
-    abstract String getRegex();
+    protected abstract String getRegex();
 
-    abstract int getGroup();
+    protected abstract int getGroup();
 
     public List<Match> fetchUsingRegex(String messageString) {
         Pattern pattern = Pattern.compile(getRegex());

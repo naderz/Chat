@@ -3,7 +3,6 @@ package com.nader.chat;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
@@ -12,7 +11,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +20,14 @@ import android.widget.Toast;
 
 import com.nader.chat.models.ChatMessage;
 import com.nader.chat.utils.Emoticons;
+import com.nader.chat.utils.MessageParser;
+import com.nader.chat.utils.ThemeUtils;
 import com.nader.chat.utils.finders.Finder;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by nader on 24/01/16.
- */
 public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRecycleViewAdapter.MessageViewHolder> {
     final Map<String, ChatMessage> mUniqueMapping = new HashMap<>();
     private SortedList<ChatMessage> mMessageList;
@@ -91,44 +88,10 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
         }
     }
 
+    private SpannableStringBuilder replaceMatchesWithContent(String message) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(message);
 
-    @Override
-    public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_message_from, viewGroup, false);
-
-        MessageViewHolder viewHolder = new MessageViewHolder(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(MessageViewHolder messageViewHolder, int i) {
-        ChatMessage message = mMessageList.get(i);
-
-        messageViewHolder.senderTextView.setText(message.getSender());
-        messageViewHolder.messageTextView.setText(replaceMatchesWithContent(message.getMessageMatches()));
-
-        View.OnLongClickListener onLongClickListener = setCopyMessageOnLongClick();
-
-        //Handle click event on both title and image click
-        messageViewHolder.messageContainer.setOnLongClickListener(onLongClickListener);
-        messageViewHolder.messageContainer.setTag(messageViewHolder);
-
-        if (message.isPending()) {
-            messageViewHolder.progressBar.setVisibility(View.VISIBLE);
-        } else {
-            messageViewHolder.progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    private int getThemeAttributeValue(int attr) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = mContext.getTheme();
-        theme.resolveAttribute(attr, typedValue, true);
-        return typedValue.data;
-    }
-
-    private SpannableStringBuilder replaceMatchesWithContent(ChatController.Matches matches) {
-        SpannableStringBuilder builder = new SpannableStringBuilder(matches.originalString);
+        MessageParser.Matches matches = new MessageParser().findMatches(message);
 
         for (Finder.Match match : matches.mentions) {
             builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), match.startIndex, match.endIndex, 0);
@@ -136,11 +99,12 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
 
         for (Finder.Match match : matches.emoticons) {
             if (Emoticons.sEmoticonMap.containsKey(match.string)) {
-                builder.setSpan(new ImageSpan(mContext, Emoticons.sEmoticonMap.get(match.string)), match.startIndex, match.endIndex, 0);
-                builder.setSpan(new ForegroundColorSpan(getThemeAttributeValue(R.attr.colorPrimaryDark)), match.startIndex, match.endIndex, 0);
+                builder.setSpan(new ImageSpan(mContext, Emoticons.sEmoticonMap.get(match.string).resource),
+                        match.startIndex, match.endIndex, 0);
+                builder.setSpan(new ForegroundColorSpan(ThemeUtils.getThemeAttributeValue(R.attr.colorPrimaryDark, mContext)),
+                        match.startIndex, match.endIndex, 0);
             }
         }
-
         return builder;
     }
 
@@ -160,6 +124,27 @@ public class MessagesRecycleViewAdapter extends RecyclerView.Adapter<MessagesRec
                 return true;
             }
         };
+    }
+
+    @Override
+    public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_message_from, viewGroup, false);
+        return new MessageViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(MessageViewHolder messageViewHolder, int i) {
+        ChatMessage message = mMessageList.get(i);
+
+        messageViewHolder.senderTextView.setText(message.getSender());
+        messageViewHolder.messageTextView.setText(replaceMatchesWithContent(message.getMessageContent()));
+
+        View.OnLongClickListener onLongClickListener = setCopyMessageOnLongClick();
+
+        messageViewHolder.messageContainer.setOnLongClickListener(onLongClickListener);
+        messageViewHolder.messageContainer.setTag(messageViewHolder);
+
+        messageViewHolder.progressBar.setVisibility(message.isPending() ? View.VISIBLE : View.GONE);
     }
 
     @Override

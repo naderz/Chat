@@ -1,5 +1,6 @@
 <resources>
 
+    <!-- >=21 specific attributes edited here -->
     <style name="AppTheme" parent="ParentTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

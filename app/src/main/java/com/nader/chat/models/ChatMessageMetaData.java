@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nader on 22/01/16.
- */
 public class ChatMessageMetaData {
 
     @Expose

@@ -2,11 +2,7 @@ package com.nader.chat.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.nader.chat.ChatController;
 
-/**
- * Created by nader on 24/01/16.
- */
 public class ChatMessage {
 
     @Expose
@@ -33,7 +29,6 @@ public class ChatMessage {
     @SerializedName("messageDateTime")
     private long mLastEdited;
 
-    private ChatController.Matches mMessageMatches;
 
     public String getSender() {
         return mSender;
@@ -67,14 +62,6 @@ public class ChatMessage {
         mLastEdited = lastEdited;
     }
 
-    public ChatController.Matches getMessageMatches() {
-        return mMessageMatches;
-    }
-
-    public void setMessageMatches(ChatController.Matches mMessageMatches) {
-        this.mMessageMatches = mMessageMatches;
-    }
-
     public boolean isPending() {
         return mPending;
     }
@@ -82,7 +69,6 @@ public class ChatMessage {
     public void setPending(boolean mPending) {
         this.mPending = mPending;
     }
-
 
     public String getId() {
         return mId;

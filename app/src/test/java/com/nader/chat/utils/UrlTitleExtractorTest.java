@@ -6,9 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by nader on 22/01/16.
- */
+
 public class UrlTitleExtractorTest {
 
     private UrlTitleExtractor mExtractor;

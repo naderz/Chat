@@ -7,9 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by nader on 22/01/16.
- */
+
 public class MentionFinderTest {
 
 
