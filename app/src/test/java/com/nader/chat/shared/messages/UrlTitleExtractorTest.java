@@ -1,6 +1,4 @@
-package com.nader.chat.message;
-
-import com.nader.chat.shared.message.UrlTitleExtractor;
+package com.nader.chat.shared.messages;
 
 import org.junit.Before;
 import org.junit.Test;

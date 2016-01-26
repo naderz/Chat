@@ -1,8 +1,5 @@
-package com.nader.chat.message.finders;
+package com.nader.chat.shared.messages.finders;
 
-
-import com.nader.chat.shared.message.finders.EmoticonsFinder;
-import com.nader.chat.shared.message.finders.Finder;
 
 import org.junit.Before;
 import org.junit.Test;

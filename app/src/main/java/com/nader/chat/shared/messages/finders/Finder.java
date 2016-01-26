@@ -1,4 +1,4 @@
-package com.nader.chat.shared.message.finders;
+package com.nader.chat.shared.messages.finders;
 
 import java.util.ArrayList;
 import java.util.List;

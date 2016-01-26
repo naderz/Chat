@@ -1,7 +1,7 @@
-package com.nader.chat.shared.message;
+package com.nader.chat.shared.messages;
 
 import com.nader.chat.models.WebUrlLink;
-import com.nader.chat.shared.message.finders.Finder;
+import com.nader.chat.shared.messages.finders.Finder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

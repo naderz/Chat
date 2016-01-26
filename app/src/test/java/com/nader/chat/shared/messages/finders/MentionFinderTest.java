@@ -1,7 +1,4 @@
-package com.nader.chat.message.finders;
-
-import com.nader.chat.shared.message.finders.Finder;
-import com.nader.chat.shared.message.finders.MentionFinder;
+package com.nader.chat.shared.messages.finders;
 
 import org.junit.Before;
 import org.junit.Test;
