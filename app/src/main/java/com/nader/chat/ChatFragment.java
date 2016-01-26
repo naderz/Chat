@@ -16,8 +16,8 @@ import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.utils.EmoticonAdapter;
-import com.nader.chat.utils.Emoticons;
+import com.nader.chat.shared.EmoticonAdapter;
+import com.nader.chat.shared.Emoticons;
 import com.nader.chat.utils.SpaceTokenizer;
 
 import java.util.ArrayList;

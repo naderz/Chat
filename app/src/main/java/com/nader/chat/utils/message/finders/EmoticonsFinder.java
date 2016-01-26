@@ -1,4 +1,4 @@
-package com.nader.chat.utils.finders;
+package com.nader.chat.utils.message.finders;
 
 
 public class EmoticonsFinder extends Finder {

@@ -1,4 +1,4 @@
-package com.nader.chat.utils.finders;
+package com.nader.chat.utils.message.finders;
 
 
 import org.junit.Before;

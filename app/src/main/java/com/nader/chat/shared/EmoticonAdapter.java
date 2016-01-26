@@ -1,4 +1,4 @@
-package com.nader.chat.utils;
+package com.nader.chat.shared;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.nader.chat.utils;
+package com.nader.chat.utils.message;
 
 import org.junit.Before;
 import org.junit.Test;
