@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.shared.Emoticons;
+import com.nader.chat.shared.emoticons.Emoticons;
 import com.nader.chat.shared.message.MessageParser;
 import com.nader.chat.shared.message.finders.Finder;
 import com.nader.chat.utils.ThemeUtils;

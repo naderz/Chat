@@ -1,4 +1,4 @@
-package com.nader.chat.shared;
+package com.nader.chat.shared.emoticons;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.nader.chat.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmoticonAdapter extends ArrayAdapter<Emoticons.Emoticon> {
+public class EmoticonsAdapter extends ArrayAdapter<Emoticons.Emoticon> {
 
     private Context mContext;
     private int mLayoutResourceId;
@@ -58,7 +58,7 @@ public class EmoticonAdapter extends ArrayAdapter<Emoticons.Emoticon> {
         }
     };
 
-    public EmoticonAdapter(Context context, int layoutResourceId, List<Emoticons.Emoticon> emoticons) {
+    public EmoticonsAdapter(Context context, int layoutResourceId, List<Emoticons.Emoticon> emoticons) {
         super(context, layoutResourceId, emoticons);
         mLayoutResourceId = layoutResourceId;
         mContext = context;

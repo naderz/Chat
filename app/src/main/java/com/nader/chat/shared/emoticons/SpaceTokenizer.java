@@ -1,4 +1,4 @@
-package com.nader.chat.utils;
+package com.nader.chat.shared.emoticons;
 
 import android.text.SpannableString;
 import android.text.Spanned;

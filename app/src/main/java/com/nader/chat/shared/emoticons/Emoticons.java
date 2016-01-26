@@ -1,4 +1,4 @@
-package com.nader.chat.shared;
+package com.nader.chat.shared.emoticons;
 
 import com.nader.chat.R;
 

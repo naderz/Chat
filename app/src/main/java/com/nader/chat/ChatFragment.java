@@ -16,9 +16,9 @@ import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.shared.EmoticonAdapter;
-import com.nader.chat.shared.Emoticons;
-import com.nader.chat.utils.SpaceTokenizer;
+import com.nader.chat.shared.emoticons.Emoticons;
+import com.nader.chat.shared.emoticons.EmoticonsAdapter;
+import com.nader.chat.shared.emoticons.SpaceTokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void initSendButton() {
-        EmoticonAdapter adapter = new EmoticonAdapter(getActivity(),
+        EmoticonsAdapter adapter = new EmoticonsAdapter(getActivity(),
                 R.layout.list_item_emoticon_suggestion,
                 new ArrayList<>(Emoticons.sEmoticonMap.values()));
 
