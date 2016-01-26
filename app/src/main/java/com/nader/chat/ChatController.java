@@ -3,7 +3,7 @@ package com.nader.chat;
 import android.util.Log;
 
 import com.nader.chat.models.ChatMessage;
-import com.nader.chat.utils.message.MessageParser;
+import com.nader.chat.shared.message.MessageParser;
 
 import java.util.Date;
 import java.util.UUID;

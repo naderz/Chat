@@ -1,13 +1,13 @@
-package com.nader.chat.utils.message;
+package com.nader.chat.shared.message;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nader.chat.models.ChatMessageMetaData;
 import com.nader.chat.models.WebUrlLink;
-import com.nader.chat.utils.message.finders.EmoticonsFinder;
-import com.nader.chat.utils.message.finders.Finder;
-import com.nader.chat.utils.message.finders.MentionFinder;
-import com.nader.chat.utils.message.finders.UrlFinder;
+import com.nader.chat.shared.message.finders.EmoticonsFinder;
+import com.nader.chat.shared.message.finders.Finder;
+import com.nader.chat.shared.message.finders.MentionFinder;
+import com.nader.chat.shared.message.finders.UrlFinder;
 
 import java.util.ArrayList;
 import java.util.List;

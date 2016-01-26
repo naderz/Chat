@@ -1,4 +1,4 @@
-package com.nader.chat.utils.message.finders;
+package com.nader.chat.shared.message.finders;
 
 import android.util.Patterns;
 
