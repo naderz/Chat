@@ -17,6 +17,8 @@
         android:id="@+id/emoticon_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
         android:layout_gravity="center_vertical"
         tools:text="(elvis)" />
 </LinearLayout>
