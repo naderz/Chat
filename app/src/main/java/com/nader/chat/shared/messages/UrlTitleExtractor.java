@@ -20,7 +20,7 @@ import okhttp3.Response;
 public class UrlTitleExtractor {
 
     private static final Pattern TITLE_TAG =
-            Pattern.compile("<title>(.*)</title>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+            Pattern.compile("<title>(.*)</title>", Pattern.CASE_INSENSITIVE);
 
     String formatUrl(final String url) {
         if (url != null && !url.contains("://")) {

@@ -30,6 +30,7 @@ public class ChatFragment extends Fragment {
     private RecyclerView mMessagesRecyclerView;
     private MultiAutoCompleteTextView mMessageEditText;
     private ImageButton mSendBtn;
+    private ChatController mMessageController;
 
     public ChatFragment() {
     }
@@ -42,6 +43,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true);
+        mMessageController = new ChatController();
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
@@ -111,8 +113,8 @@ public class ChatFragment extends Fragment {
     }
 
     private void postMessage(final String message) {
-        final ChatController messageController = new ChatController();
-        final ChatMessage chatMessage = messageController.createChatMessageItem(message);
+
+        final ChatMessage chatMessage = mMessageController.createChatMessageItem(message);
         mMessageEditText.setText("");
         mMessageAdapter.insert(chatMessage);
         mMessagesRecyclerView.post(new Runnable() {
@@ -125,7 +127,7 @@ public class ChatFragment extends Fragment {
         AsyncTaskCompat.executeParallel(new AsyncTask<Void, Void, ChatMessage>() {
             @Override
             protected ChatMessage doInBackground(Void... params) {
-                ChatMessage chatMessageReturned = messageController.postMessage(chatMessage);
+                ChatMessage chatMessageReturned = mMessageController.postMessage(chatMessage);
                 return chatMessageReturned;
             }
 
